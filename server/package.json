@@ -1,0 +1,19 @@
+{
+  "name": "atelier-ml-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "API de l'Atelier ML : contenu Markdown en lecture, progression en SQLite.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.7.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "gray-matter": "^4.0.3",
+    "marked": "^15.0.4"
+  }
+}

@@ -1,0 +1,14 @@
+node_modules/
+dist/
+
+# La base : c'est ta progression, elle se sauvegarde par copie de fichier,
+# pas par commit (voir docs/modele-de-donnees.md §7).
+server/data.db
+server/data.db-shm
+server/data.db-wal
+backups/
+docs/
+
+.DS_Store
+*.log
+.env
