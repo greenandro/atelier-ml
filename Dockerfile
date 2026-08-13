@@ -26,17 +26,28 @@ ENV NODE_ENV=production \
     ATELIER_CONTENT=/app/content \
     ATELIER_DB=/app/server/data/data.db
 
+# gosu : l'entrypoint démarre en root le temps d'ajuster le volume, puis
+# bascule sur l'utilisateur node sans perdre les signaux (pas de PID 1 parasite).
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends gosu \
+ && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app/server
 COPY --from=deps /build/node_modules ./node_modules
 COPY server/ ./
 COPY content/ /app/content/
 COPY --from=web /build/dist /app/web/dist
 
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
 # La base vit dans un volume : le dossier doit exister et appartenir à node.
+# Le sed neutralise les fins de ligne CRLF si le dépôt a été cloné sous Windows.
 RUN rm -f data.db data.db-shm data.db-wal \
  && mkdir -p /app/server/data \
- && chown -R node:node /app
+ && chown -R node:node /app \
+ && sed -i 's/\r$//' /usr/local/bin/docker-entrypoint.sh \
+ && chmod +x /usr/local/bin/docker-entrypoint.sh
 
-USER node
 EXPOSE 3001
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["node", "index.js"]
