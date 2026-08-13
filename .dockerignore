@@ -1,0 +1,14 @@
+node_modules
+*/node_modules
+web/dist
+docs
+backups
+data
+.git
+.gitignore
+server/data.db
+server/data.db-shm
+server/data.db-wal
+*.log
+.env
+.DS_Store

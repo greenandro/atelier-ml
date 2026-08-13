@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  atelier-ml:
+    build: .
+    container_name: atelier-ml
+    restart: unless-stopped
+    ports:
+      - "55998:3001"
+    environment:
+      - PORT=3001
+      # Contenu Markdown lu au démarrage (et par POST /api/reload)
+      - ATELIER_CONTENT=/app/content
+      # Progression : la base SQLite vit dans le volume ./data
+      - ATELIER_DB=/app/server/data/data.db
+      - TZ=Europe/Paris
+    volumes:
+      # Persistance de ta progression (notes, cartes, sessions)
+      - ./data:/app/server/data
+      # Les fiches restent éditables depuis l'hôte
+      - ./content:/app/content:ro
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    networks:
+      - lp
+
+networks:
+  lp:
+    external: true
+    name: fst_nw

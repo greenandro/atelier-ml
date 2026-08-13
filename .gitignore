@@ -6,6 +6,7 @@ dist/
 server/data.db
 server/data.db-shm
 server/data.db-wal
+data/
 backups/
 docs/
 
